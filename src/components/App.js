@@ -15,7 +15,7 @@ import Navbar from "./nav/Navbar";
 const theme = createMuiTheme(themeFile);
 
 axios.defaults.baseURL =
-  "https://us-central1-tentime-99a3b.cloudfunctions.net/api";
+  "https://us-central1-socialplatform-e9c23.cloudfunctions.net/api";
 
 function App() {
   return (

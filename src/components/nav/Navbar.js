@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -93,7 +94,7 @@ const Navbar = (props) => {
           </Typography>
           <div className={classes.grow} />
           <Typography className={classes.title} variant="h6" noWrap>
-            {!authenticated ? "Guest" : { handle }}
+            {!authenticated ? "Guest" : handle}
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
@@ -110,15 +111,17 @@ const Navbar = (props) => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Account">
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              <Link to="/">
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Link>
             </Tooltip>
           </div>
         </Toolbar>
@@ -129,7 +132,7 @@ const Navbar = (props) => {
 
 Navbar.propTypes = {
   authenticated: PropTypes.bool.isRequired,
-  handle: PropTypes.string.isRequired,
+  handle: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
