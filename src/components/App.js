@@ -8,8 +8,9 @@ import themeFile from "./util/theme";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
+import "../styles/app.css";
 import Home from "./pages/home";
-import Navbar from "./nav/navBar";
+import Navbar from "./nav/Navbar";
 
 const theme = createMuiTheme(themeFile);
 
@@ -22,9 +23,11 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <Navbar />
-          <Switch>
-            <Route exact path="/" component={Home} />
-          </Switch>
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Home} />
+            </Switch>
+          </div>
         </Router>
       </ThemeProvider>
     </Provider>
