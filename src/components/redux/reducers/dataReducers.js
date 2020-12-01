@@ -18,7 +18,7 @@ const initialState = {
   loading: false,
 };
 
-export default function (state = initialState, action) {
+export default function dataReducer(state = initialState, action) {
   switch (action.type) {
     case LOADING_DATA:
       return {
@@ -42,25 +42,29 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case EDIT_POST:
-      let idx = state.posts.findIndex((post) => post.postId === action);
+      let editIdx = state.posts.findIndex((post) => post.postId === action);
+      state.posts[editIdx].body = action.payload;
       state.post.postId === action.payload.postId &&
         (state.post.body = action.payload.body);
       state.posts.postId === action.payload.postId &&
         (state.posts.body = action.payload.body);
       return {
         ...state,
-        post: (post.body = action.payload),
       };
     case DELETE_POST:
+      let deletePost = state.posts.findIndex(
+        (post) => post.postId === action.payload
+      );
+      state.posts.splice(deletePost, 1);
       return {
         ...state,
-        posts: state.posts.filter((post) => {
-          post.id !== action.payload.postId;
-        }),
       };
     case LIKE_POST:
     case UNLIKE_POST:
-      let idx = state.posts.findIndex((post) => post.postId === action.payload);
+      let postIdx = state.posts.findIndex(
+        (post) => post.postId === action.payload
+      );
+      state.posts[postIdx] = action.payload;
       state.post.postId === action.payload.postId &&
         (state.post = action.payload);
       state.posts.postId === action.payload.postId &&
@@ -77,18 +81,18 @@ export default function (state = initialState, action) {
         },
       };
     case EDIT_COMMENT:
-      let idx = state.post.findIndex(
+      let commentIdx = state.post.findIndex(
         (comment) => comment.id === action.payload
       );
-      state.post.comments.body = action.payload;
+      state.post.comments[commentIdx].body = action.payload;
       return {
         ...state,
       };
     case DELETE_COMMENT:
-      let comment = state.post.comments.filter((comment) => {
-        comment.id === action.payload && comment;
-      });
-      state.post.comments.splice(comment, 1);
+      let deleteComment = state.post.comments.findIndex(
+        (comment) => comment.id === action.payload
+      );
+      state.post.comments.splice(deleteComment, 1);
       return {
         ...state,
       };
