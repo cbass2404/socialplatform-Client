@@ -11,6 +11,8 @@ import store from "./redux/store";
 import "../styles/app.css";
 import Home from "./pages/home";
 import Navbar from "./nav/Navbar";
+import Profile from "./pages/profile";
+import Login from "./pages/login";
 
 const theme = createMuiTheme(themeFile);
 
@@ -26,6 +28,8 @@ function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/user/:handle" component={Profile} />
             </Switch>
           </div>
         </Router>

@@ -89,9 +89,11 @@ const Navbar = (props) => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h4" noWrap>
-            Postal
-          </Typography>
+          <Link to="/">
+            <Typography className={classes.title} variant="h4" noWrap>
+              Postal
+            </Typography>
+          </Link>
           <div className={classes.grow} />
           <Typography className={classes.title} variant="h6" noWrap>
             {!authenticated ? "Guest" : handle}
@@ -111,17 +113,31 @@ const Navbar = (props) => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Account">
-              <Link to="/">
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-              </Link>
+              {!authenticated ? (
+                <Link to="/login">
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </Link>
+              ) : (
+                <Link to="/user/:handle">
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </Link>
+              )}
             </Tooltip>
           </div>
         </Toolbar>
