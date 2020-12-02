@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -7,12 +7,14 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import { Tooltip } from "@material-ui/core";
+
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddIcon from "@material-ui/icons/Add";
 
 import { connect } from "react-redux";
-import { Tooltip } from "@material-ui/core";
+import { logoutUser } from "../redux/actions/userActions";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -76,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  pictureIcon: {
+    height: "50px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    maxWidth: "100%",
+  },
 }));
 
 const Navbar = (props) => {
@@ -83,7 +91,22 @@ const Navbar = (props) => {
 
   const menuId = "primary-search-account-menu";
 
-  const { handle, authenticated } = props;
+  const {
+    user: {
+      authenticated,
+      credentials: { handle, imageUrl },
+      notifications,
+    },
+    logoutUser,
+  } = props;
+
+  const history = useHistory();
+
+  const handleLogout = () => {
+    logoutUser(history);
+  };
+
+  console.log(props.user);
 
   return (
     <div className={classes.grow}>
@@ -95,24 +118,25 @@ const Navbar = (props) => {
             </Typography>
           </Link>
           <div className={classes.grow} />
-          <Typography className={classes.title} variant="h6" noWrap>
-            {!authenticated ? "Guest" : handle}
-          </Typography>
+          <Tooltip title="Add a new post">
+            <IconButton color="inherit">
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography>{authenticated ? `@${handle}` : "Guest"}</Typography>
+          <Tooltip title="See your notifications">
+            <IconButton color="inherit">
+              <Badge
+                badgeContent={!authenticated ? 17 : notifications.length}
+                color="secondary"
+              >
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Tooltip title="Add a new post">
-              <IconButton color="inherit">
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="See your notifications">
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Account">
+            <Tooltip title={!authenticated ? "Login" : "Logout"}>
               {!authenticated ? (
                 <Link to="/login">
                   <IconButton
@@ -122,21 +146,24 @@ const Navbar = (props) => {
                     aria-haspopup="true"
                     color="inherit"
                   >
-                    <AccountCircle />
+                    <AccountCircle className={classes.pictureIcon} />
                   </IconButton>
                 </Link>
               ) : (
-                <Link to="/user/:handle">
-                  <IconButton
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                </Link>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={handleLogout}
+                >
+                  <img
+                    src={imageUrl}
+                    alt="Profile Picture"
+                    className={classes.pictureIcon}
+                  />
+                </IconButton>
               )}
             </Tooltip>
           </div>
@@ -147,13 +174,15 @@ const Navbar = (props) => {
 };
 
 Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   handle: PropTypes.string,
+  imageUrl: PropTypes.string,
+  notifications: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
-  authenticated: state.user.authenticated,
-  handle: state.user.handle,
+  user: state.user,
 });
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { logoutUser })(Navbar);

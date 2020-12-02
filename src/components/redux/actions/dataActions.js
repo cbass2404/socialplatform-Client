@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_POSTS } from "../types";
+import { CLEAR_ERRORS, LOADING_DATA, SET_POSTS } from "../types";
 import axios from "axios";
 
 export const getPosts = () => (dispatch) => {
@@ -6,7 +6,6 @@ export const getPosts = () => (dispatch) => {
   axios
     .get("/posts")
     .then((res) => {
-      console.log(res);
       dispatch({
         type: SET_POSTS,
         payload: res.data,
@@ -19,4 +18,23 @@ export const getPosts = () => (dispatch) => {
       });
       console.error("GET ALL POSTS", err);
     });
+};
+
+export const getUserData = (handle) => (dispatch) => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/user/${handle}`)
+    .then((res) => {
+      dispatch({
+        type: SET_POSTS,
+        payload: res.data.posts,
+      });
+    })
+    .catch(() => {
+      dispatch({ type: SET_POSTS, payload: null });
+    });
+};
+
+export const clearErrors = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };

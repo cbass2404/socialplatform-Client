@@ -16,7 +16,7 @@ const Home = (props) => {
 
   let postFeed = !loading
     ? posts.map((post) => {
-        return <Post key={post.postid} post={post} />;
+        return <Post key={post.postId} post={post} />;
       })
     : "Loading";
 
