@@ -61,9 +61,11 @@ const Navbar = (props) => {
           <Grid item>
             {authenticated ? (
               <Tooltip title="Add a new post">
-                <IconButton color="inherit">
-                  <AddIcon />
-                </IconButton>
+                <Link to="/new-post">
+                  <IconButton color="inherit">
+                    <AddIcon />
+                  </IconButton>
+                </Link>
               </Tooltip>
             ) : null}
             <Tooltip title={!authenticated ? "Login" : "Your profile"}>

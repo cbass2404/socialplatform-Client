@@ -27,7 +27,6 @@ const User = (props) => {
     axios
       .get(`/user/${handle}`)
       .then((res) => {
-        console.log(res.data);
         setProfile(res.data.user);
       })
       .catch((err) => console.log("userProfile getUserData", err));
@@ -50,7 +49,7 @@ const User = (props) => {
   );
 
   return (
-    <Grid container spacing={10} direction="column">
+    <Grid container spacing={10} direction="row">
       <Grid item sm={4} xs={12}>
         {profile === null ? (
           "Can not find that user"

@@ -94,8 +94,8 @@ const Profile = (props) => {
             )}
             <CalendarToday color="primary" />{" "}
             <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
+            <EditDetails />
           </div>
-          <EditDetails />
         </div>
       </Paper>
     ) : (

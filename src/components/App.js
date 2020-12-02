@@ -13,10 +13,11 @@ import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 import "../styles/app.css";
 import Home from "./pages/home";
-import Navbar from "./nav/Navbar";
+import Navbar from "./nav/navbar";
 import User from "./pages/user";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import NewPost from "./pages/newPost";
 
 const theme = createMuiTheme(themeFile);
 
@@ -48,6 +49,7 @@ function App() {
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/users/:handle" component={User} />
+              <Route exact path="/new-post" component={NewPost} />
             </Switch>
           </div>
         </Router>
