@@ -38,6 +38,7 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
         authenticated: false,
+        credentials: {},
       };
     case MARK_NOTIFICATIONS_READ:
       state.notifications.forEach((notification) => (notification.read = true));

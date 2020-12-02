@@ -6,7 +6,6 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Tooltip } from "@material-ui/core";
@@ -117,29 +116,33 @@ const Navbar = (props) => {
             </Link>
           </Grid>
           <Grid item>
-            <Tooltip title="Add a new post">
-              <IconButton color="inherit">
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
+            {authenticated ? (
+              <Tooltip title="Add a new post">
+                <IconButton color="inherit">
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
+            ) : null}
             <Tooltip title="Your profile">
-              <Link to={`/user/${handle}`}>
+              <Link to={!authenticated ? "/login" : `/user/${handle}`}>
                 {!authenticated ? "@GUEST" : `@${handle}`}{" "}
               </Link>
             </Tooltip>
-            <Tooltip title="See your notifications">
-              <IconButton color="inherit">
-                <Badge badgeContent={notifications.length} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            {authenticated ? (
+              <Tooltip title="See your notifications">
+                <IconButton color="inherit">
+                  <Badge badgeContent={notifications.length} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            ) : null}
           </Grid>
           <Grid item>
             <Link to="/signup">SIGNUP</Link>
             <Tooltip title={!authenticated ? "Login" : "Logout"}>
               <Link
-                to={!authenticated ? "/login" : null}
+                to={!authenticated ? "/login" : "/"}
                 onClick={authenticated ? handleLogout : null}
               >
                 <IconButton
