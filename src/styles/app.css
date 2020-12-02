@@ -20,3 +20,15 @@ div,
   max-width: 1200px;
   margin: 50px auto 0 auto;
 }
+
+.nav-container {
+  margin: auto;
+}
+
+.nav-container svg {
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+}

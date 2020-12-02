@@ -14,7 +14,7 @@ import { logoutUser, getUserData } from "./redux/actions/userActions";
 import "../styles/app.css";
 import Home from "./pages/home";
 import Navbar from "./nav/Navbar";
-import Profile from "./pages/profile";
+import User from "./pages/user";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 
@@ -27,7 +27,7 @@ const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
-    store.dispatch(logoutUser());
+    store.dispatch(logoutUser("/"));
     window.location.href = "/login";
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
@@ -47,7 +47,7 @@ function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/user/:handle" component={Profile} />
+              <Route exact path="/users/:handle" component={User} />
             </Switch>
           </div>
         </Router>

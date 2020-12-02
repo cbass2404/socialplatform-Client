@@ -15,9 +15,11 @@ const Home = (props) => {
   } = props;
 
   let postFeed = !loading
-    ? posts.map((post) => {
-        return <Post key={post.postId} post={post} />;
-      })
+    ? posts !== null
+      ? posts.map((post) => {
+          return <Post key={post.postId} post={post} />;
+        })
+      : "No posts"
     : "Loading";
 
   useEffect(() => {

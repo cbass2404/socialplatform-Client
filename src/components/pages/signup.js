@@ -12,10 +12,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
 import { signupUser } from "../redux/actions/userActions";
 
-import themeFile from "../util/theme";
-import appIcon from "../../images/favicon.ico";
+import theme from "../util/theme";
 
-const styles = themeFile;
+const styles = {
+  ...theme,
+};
 
 const Signup = (props) => {
   const history = useHistory();
@@ -44,7 +45,6 @@ const Signup = (props) => {
     <Grid container className={classes.form}>
       <Grid item sm />
       <Grid item sm>
-        <img src={appIcon} alt="App Icon" className={classes.image} />
         <Typography variant="h2" className={classes.pageTitle}>
           Signup
         </Typography>
@@ -58,6 +58,7 @@ const Signup = (props) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
+            required
           />
           <TextField
             id="password"
@@ -68,6 +69,7 @@ const Signup = (props) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
+            required
           />
           <TextField
             id="confirmPassword"
@@ -78,6 +80,7 @@ const Signup = (props) => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             fullWidth
+            required
           />
           <TextField
             id="handle"
@@ -88,6 +91,7 @@ const Signup = (props) => {
             value={handle}
             onChange={(e) => setHandle(e.target.value)}
             fullWidth
+            required
           />
 
           <Button
@@ -95,7 +99,13 @@ const Signup = (props) => {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={loading}
+            disabled={
+              loading ||
+              email === "" ||
+              password === "" ||
+              confirmPassword === "" ||
+              handle === ""
+            }
           >
             Signup
             {loading && (
