@@ -16,6 +16,7 @@ import Home from "./pages/home";
 import Navbar from "./nav/Navbar";
 import Profile from "./pages/profile";
 import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 const theme = createMuiTheme(themeFile);
 
@@ -45,6 +46,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
               <Route exact path="/user/:handle" component={Profile} />
             </Switch>
           </div>

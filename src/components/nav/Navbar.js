@@ -1,6 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import Grid from "@material-ui/core/Grid";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -106,76 +107,70 @@ const Navbar = (props) => {
     logoutUser(history);
   };
 
-  console.log(props.user);
-
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
-          <Link to="/">
-            <Typography className={classes.title} variant="h4" noWrap>
-              Postal
-            </Typography>
-          </Link>
-          <div className={classes.grow} />
-          <Tooltip title="Add a new post">
-            <IconButton color="inherit">
-              <AddIcon />
-            </IconButton>
-          </Tooltip>
-          <Typography>{authenticated ? `@${handle}` : "Guest"}</Typography>
-          <Tooltip title="See your notifications">
-            <IconButton color="inherit">
-              <Badge
-                badgeContent={!authenticated ? 17 : notifications.length}
-                color="secondary"
-              >
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Tooltip>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+    <AppBar position="static">
+      <Toolbar>
+        <Grid container>
+          <Grid item>
+            <Link to="/">
+              <h2>POSTAL</h2>
+            </Link>
+          </Grid>
+          <Grid item>
+            <Tooltip title="Add a new post">
+              <IconButton color="inherit">
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Your profile">
+              <Link to={`/user/${handle}`}>
+                {!authenticated ? "@GUEST" : `@${handle}`}{" "}
+              </Link>
+            </Tooltip>
+            <Tooltip title="See your notifications">
+              <IconButton color="inherit">
+                <Badge badgeContent={notifications.length} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid item>
+            <Link to="/signup">SIGNUP</Link>
             <Tooltip title={!authenticated ? "Login" : "Logout"}>
-              {!authenticated ? (
-                <Link to="/login">
-                  <IconButton
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    color="inherit"
-                  >
-                    <AccountCircle className={classes.pictureIcon} />
-                  </IconButton>
-                </Link>
-              ) : (
+              <Link
+                to={!authenticated ? "/login" : null}
+                onClick={authenticated ? handleLogout : null}
+              >
                 <IconButton
                   edge="end"
                   aria-label="account of current user"
                   aria-controls={menuId}
                   aria-haspopup="true"
                   color="inherit"
-                  onClick={handleLogout}
                 >
-                  <img
-                    src={imageUrl}
-                    alt="Profile Picture"
-                    className={classes.pictureIcon}
-                  />
+                  {!authenticated ? (
+                    <AccountCircle className={classes.pictureIcon} />
+                  ) : (
+                    <img
+                      src={imageUrl}
+                      alt="Profile Picture"
+                      className={classes.pictureIcon}
+                    />
+                  )}
                 </IconButton>
-              )}
+              </Link>
             </Tooltip>
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+          </Grid>
+        </Grid>
+      </Toolbar>
+    </AppBar>
   );
 };
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired,
+  authenticated: PropTypes.bool,
   handle: PropTypes.string,
   imageUrl: PropTypes.string,
   notifications: PropTypes.array,
