@@ -24,7 +24,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
+        payload: err.response,
       });
     });
 };
@@ -42,7 +42,7 @@ export const loginUser = (userData, history) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
+        payload: err.response,
       });
     });
 };
@@ -68,7 +68,7 @@ export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
     .post("/user/image", formData)
-    .then((res) => {
+    .then(() => {
       dispatch(getUserData());
     })
     .catch((err) => console.log(err));

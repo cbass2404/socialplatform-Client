@@ -52,10 +52,8 @@ export default function dataReducer(state = initialState, action) {
         ...state,
       };
     case DELETE_POST:
-      let deletePost = state.posts.findIndex(
-        (post) => post.postId === action.payload
-      );
-      state.posts.splice(deletePost, 1);
+      let idx = state.posts.findIndex((post) => post.postId === action.payload);
+      state.posts.splice(idx, 1);
       return {
         ...state,
       };

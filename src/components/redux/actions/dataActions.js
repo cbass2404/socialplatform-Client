@@ -45,11 +45,9 @@ export const getUserData = (handle) => (dispatch) => {
 
 export const newPost = (body, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  console.log(body);
   axios
     .post("/posts", { body })
     .then((res) => {
-      console.log(res);
       dispatch({
         type: NEW_POST,
         payload: res.data,
@@ -62,7 +60,7 @@ export const newPost = (body, history) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
+        payload: err.response,
       });
       console.error("NEW POST DATAACTIONS.JS", err);
     });
@@ -73,12 +71,11 @@ export const deletePost = (postId) => (dispatch) => {
   axios
     .delete(`/posts/${postId}`)
     .then(() => {
-      dispatch({ type: DELETE_POST });
+      dispatch({ type: DELETE_POST, payload: postId });
       dispatch({ CLEAR_ERRORS });
-      console.log("DELETED POST");
     })
     .catch((err) => {
-      dispatch({ type: SET_ERRORS, payload: err.response.data });
+      dispatch({ type: SET_ERRORS, payload: err.response });
     });
 };
 

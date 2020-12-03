@@ -50,7 +50,8 @@ const Profile = (props) => {
         <div className={classes.profile}>
           <div className="image-wrapper">
             <img src={imageUrl} alt="Profile" className="profile-image" />
-            <inputlogOut
+            <input
+              type="file"
               id="imageInput"
               hidden="hidden"
               onChange={handleImageChange}

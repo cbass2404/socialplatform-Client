@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
@@ -14,8 +14,6 @@ const Home = (props) => {
     data: { posts, loading },
   } = props;
 
-  const [initPosts, setPosts] = useState([]);
-
   let postFeed = !loading
     ? posts !== null
       ? posts.map((post) => {
@@ -27,12 +25,6 @@ const Home = (props) => {
   useEffect(() => {
     getPosts();
   }, [getPosts]);
-
-  useEffect(() => {
-    if (initPosts !== posts) {
-      setPosts(posts);
-    }
-  }, [initPosts, posts]);
 
   return (
     <Grid container spacing={8}>
