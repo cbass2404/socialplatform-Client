@@ -43,22 +43,28 @@ export const getUserData = (handle) => (dispatch) => {
     });
 };
 
-export const newPost = (newPost) => (dispatch) => {
+export const newPost = (body, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
+  console.log(body);
   axios
-    .post("/posts", newPost)
+    .post("/posts", { body })
     .then((res) => {
+      console.log(res);
       dispatch({
         type: NEW_POST,
         payload: res.data,
       });
       dispatch({ type: CLEAR_ERRORS });
     })
+    .then(() => {
+      history.push("/");
+    })
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data,
       });
+      console.error("NEW POST DATAACTIONS.JS", err);
     });
 };
 

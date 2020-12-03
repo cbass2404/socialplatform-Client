@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import theme from "../util/theme";
 import Typography from "@material-ui/core/Typography";
@@ -26,7 +28,7 @@ const styles = {
     height: 200,
     objectFit: "cover",
     maxWidth: "100%",
-    // borderRadius: "50%",
+    borderRadius: "50%",
   },
 };
 
@@ -40,10 +42,11 @@ const NewPost = (props) => {
 
   const [body, setBody] = useState("");
 
+  const history = useHistory();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    newPost(body);
-    props.history.push("/");
+    newPost(body, history);
   };
 
   return (
@@ -55,7 +58,7 @@ const NewPost = (props) => {
           direction="column"
           justify="center"
           alignItems="center"
-          spacing="2"
+          spacing={2}
         >
           <Grid item>
             <img src={imageUrl} alt="Profile" className={classes.image} />
@@ -71,14 +74,13 @@ const NewPost = (props) => {
             <TextField
               name="body"
               type="text"
-              label="Status"
-              multiline
-              rows="3"
-              placeholder="Status content"
+              label="Post"
+              placeholder="Post content"
               className={classes.textField}
               value={body}
               onChange={(e) => setBody(e.target.value)}
               fullWidth
+              required
             />
             <Button
               type="submit"
@@ -98,9 +100,15 @@ const NewPost = (props) => {
           </form>
         </Grid>
       </Grid>
-      <Grid item />
     </Grid>
   );
+};
+
+NewPost.propTypes = {
+  classes: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  credentials: PropTypes.object.isRequired,
+  newPost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

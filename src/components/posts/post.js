@@ -15,7 +15,6 @@ import Typography from "@material-ui/core/Typography";
 import theme from "../util/theme";
 
 import ChatIcon from "@material-ui/icons/Chat";
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import TipButton from "../util/tipButton";
