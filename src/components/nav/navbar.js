@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-// import { makeStyles } from "@material-ui/core/styles";
+import MuiLink from "@material-ui/core/Link";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -54,25 +54,35 @@ const Navbar = (props) => {
         <Grid container justify="space-between" alignItems="center">
           <Grid item>
             <Tooltip title="Home">
-              <Link to="/">
-                <h2>POSTAL</h2>
-              </Link>
+              <MuiLink component={Link} to={`/`} color="inherit" variant="h5">
+                POSTAL
+              </MuiLink>
             </Tooltip>
           </Grid>
           <Grid item>
             {authenticated ? (
               <Tooltip title="Add a new post">
-                <Link to="/new-post">
+                <MuiLink
+                  component={Link}
+                  to={`/new-post`}
+                  color="inherit"
+                  variant="h5"
+                >
                   <IconButton color="inherit">
                     <AddIcon />
                   </IconButton>
-                </Link>
+                </MuiLink>
               </Tooltip>
             ) : null}
             <Tooltip title={!authenticated ? "Login" : "Your profile"}>
-              <Link to={!authenticated ? "/login" : `/users/${handle}`}>
-                {!authenticated ? "@GUEST" : `@${handle}`}{" "}
-              </Link>
+              <MuiLink
+                component={Link}
+                to={!authenticated ? "/login" : `/users/${handle}`}
+                color="inherit"
+                variant="h5"
+              >
+                {!authenticated ? "@GUEST" : `@${handle.toUpperCase()}`}{" "}
+              </MuiLink>
             </Tooltip>
             {authenticated ? (
               <Tooltip title="See your notifications">
@@ -85,10 +95,23 @@ const Navbar = (props) => {
             ) : null}
           </Grid>
           <Grid item>
-            {!authenticated ? <Link to="/signup">SIGNUP</Link> : null}
+            {!authenticated ? (
+              <MuiLink
+                component={Link}
+                to={`signup`}
+                color="inherit"
+                variant="h6"
+              >
+                SIGNUP
+              </MuiLink>
+            ) : null}
+
             <Tooltip title={!authenticated ? "Login" : "Logout"}>
-              <Link
+              <MuiLink
+                component={Link}
                 to={!authenticated ? "/login" : "/"}
+                color="inherit"
+                variant="h5"
                 onClick={authenticated ? handleLogout : null}
               >
                 <IconButton
@@ -108,7 +131,7 @@ const Navbar = (props) => {
                     />
                   )}
                 </IconButton>
-              </Link>
+              </MuiLink>
             </Tooltip>
           </Grid>
         </Grid>
