@@ -81,7 +81,7 @@ const Navbar = (props) => {
                 color="inherit"
                 variant="h5"
               >
-                {!authenticated ? "@GUEST" : `@${handle.toUpperCase()}`}{" "}
+                {!authenticated ? "@guest" : `@${handle}`}{" "}
               </MuiLink>
             </Tooltip>
             {authenticated ? (
@@ -98,7 +98,7 @@ const Navbar = (props) => {
             {!authenticated ? (
               <MuiLink
                 component={Link}
-                to={`signup`}
+                to={`/signup`}
                 color="inherit"
                 variant="h6"
               >
@@ -141,7 +141,7 @@ const Navbar = (props) => {
 };
 
 Navbar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   logoutUser: PropTypes.func.isRequired,
   authenticated: PropTypes.bool,
   handle: PropTypes.string,

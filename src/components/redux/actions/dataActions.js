@@ -2,10 +2,12 @@ import {
   CLEAR_ERRORS,
   LOADING_DATA,
   NEW_POST,
+  SET_POST,
   SET_POSTS,
   LOADING_UI,
   SET_ERRORS,
   DELETE_POST,
+  EDIT_POST,
 } from "../types";
 import axios from "axios";
 
@@ -25,6 +27,25 @@ export const getPosts = () => (dispatch) => {
         payload: [],
       });
       console.error("GET ALL POSTS", err);
+    });
+};
+
+export const getPost = (postId) => (dispatch) => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/posts/${postId}`)
+    .then((res) => {
+      dispatch({
+        type: SET_POST,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_POST,
+        payload: {},
+      });
+      console.error("GET A POST", err);
     });
 };
 
@@ -81,4 +102,18 @@ export const deletePost = (postId) => (dispatch) => {
 
 export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
+};
+
+export const editPost = (postId, body, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .patch(`/posts/${postId}`, { body })
+    .then((res) => {
+      dispatch({ type: EDIT_POST, payload: res.data });
+      dispatch({ type: CLEAR_ERRORS });
+      history.push("/");
+    })
+    .catch((err) => {
+      dispatch({ type: SET_ERRORS, payload: err.response });
+    });
 };

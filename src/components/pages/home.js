@@ -37,7 +37,7 @@ const Home = (props) => {
 };
 
 Home.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   getPosts: PropTypes.func.isRequired,
 };
 

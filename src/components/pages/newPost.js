@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 import PropTypes from "prop-types";
 
 import theme from "../util/theme";
@@ -11,7 +12,8 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { connect } from "react-redux";
-import { newPost } from "../redux/actions/dataActions";
+import { newPost, editPost } from "../redux/actions/dataActions";
+import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 
 const styles = {
   ...theme,
@@ -33,20 +35,32 @@ const styles = {
 };
 
 const NewPost = (props) => {
+  const history = useHistory();
+  const postParamId = props.match.params.postId;
   const {
     classes,
-    credentials: { handle, imageUrl },
+    user: {
+      credentials: { handle, imageUrl },
+    },
     UI: { loading },
     newPost,
+    editPost,
   } = props;
 
+  const [edit, setEdit] = useState(false);
+  const [post, setPost] = useState({});
   const [body, setBody] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
-  const history = useHistory();
-
-  const handleSubmit = (e) => {
+  const handleNewSubmit = (e) => {
     e.preventDefault();
     newPost(body, history);
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const edittedPost = post.postId;
+    editPost(edittedPost, body, history);
   };
 
   return (
@@ -70,7 +84,7 @@ const NewPost = (props) => {
           </Grid>
         </Grid>
         <Grid item>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={!edit ? handleNewSubmit : handleEditSubmit}>
             <TextField
               name="body"
               type="text"
@@ -79,15 +93,15 @@ const NewPost = (props) => {
               className={classes.textField}
               value={body}
               onChange={(e) => setBody(e.target.value)}
+              disabled={disabled}
               fullWidth
               required
             />
+
             <Button
               type="submit"
-              variant="contained"
+              disabled={loading && disabled}
               color="primary"
-              className={classes.submitButton}
-              disabled={loading}
             >
               Submit
               {loading && (
@@ -105,18 +119,25 @@ const NewPost = (props) => {
 };
 
 NewPost.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
+  credentials: PropTypes.object,
   UI: PropTypes.object.isRequired,
-  credentials: PropTypes.object.isRequired,
   newPost: PropTypes.func.isRequired,
+  editPost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   classes: state.classes,
   UI: state.UI,
-  credentials: state.user.credentials,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, { newPost })(
-  withStyles(styles)(NewPost)
-);
+const mapActionsToProps = {
+  newPost,
+  editPost,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(NewPost));

@@ -15,7 +15,9 @@ import Typography from "@material-ui/core/Typography";
 import theme from "../util/theme";
 
 import ChatIcon from "@material-ui/icons/Chat";
+import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import LikeIcon from "@material-ui/icons/ThumbUp";
 
 import TipButton from "../util/tipButton";
 
@@ -55,12 +57,12 @@ const Post = (props) => {
 
   return (
     <Card className={classes.card}>
+      <CardMedia
+        image={imageUrl}
+        title="Profile image"
+        className={classes.image}
+      />
       <Grid container justify="space-between">
-        <CardMedia
-          image={imageUrl}
-          title="Profile image"
-          className={classes.image}
-        />
         <Grid item>
           <CardContent className={classes.content}>
             <Typography
@@ -75,6 +77,9 @@ const Post = (props) => {
               {dayjs(createdAt).fromNow()}
             </Typography>
             <Typography variant="body1">{body}</Typography>
+            <TipButton tip="Like this">
+              <LikeIcon color="primary" />
+            </TipButton>
             <span>{likeCount} Likes</span>
             <TipButton tip="comments">
               <ChatIcon color="primary" />
@@ -84,10 +89,27 @@ const Post = (props) => {
         </Grid>
         <Grid item>
           {authenticated && credentials.handle === handle ? (
-            <Grid container>
+            <Grid
+              item
+              xs
+              container
+              direction="column"
+              justify="space-between"
+              style={{
+                height: "100%",
+                padding: "10px",
+              }}
+            >
+              <Grid item>
+                <Link to={`/posts/${postId}`}>
+                  <Tooltip title="Edit Post">
+                    <EditIcon color="primary" />
+                  </Tooltip>
+                </Link>
+              </Grid>
               <Grid item>
                 <Tooltip title="Delete">
-                  <Link onClick={() => deletePost(postId)}>
+                  <Link onClick={() => deletePost(postId)} to={"/"}>
                     <DeleteIcon color="secondary" />
                   </Link>
                 </Tooltip>
@@ -102,9 +124,9 @@ const Post = (props) => {
 
 Post.propTypes = {
   deletePost: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
+  user: PropTypes.object,
+  post: PropTypes.object,
+  classes: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
