@@ -13,7 +13,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { connect } from "react-redux";
 import { newPost, editPost } from "../redux/actions/dataActions";
-import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 
 const styles = {
   ...theme,
