@@ -62,6 +62,24 @@ const NewPost = (props) => {
     editPost(edittedPost, body, history);
   };
 
+  useEffect(() => {
+    postParamId
+      ? axios
+          .get(`posts/${postParamId}`)
+          .then((res) => {
+            setPost(res.data);
+            setEdit(true);
+            return res.data;
+          })
+          .then((data) => {
+            setBody(data.body);
+          })
+          .catch((err) => {
+            console.error("editpost body", err);
+          })
+      : setEdit(false);
+  }, []);
+
   return (
     <Grid container justify="space-between">
       <Grid item />

@@ -100,20 +100,25 @@ export const deletePost = (postId) => (dispatch) => {
     });
 };
 
-export const clearErrors = () => (dispatch) => {
-  dispatch({ type: CLEAR_ERRORS });
-};
-
 export const editPost = (postId, body, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
     .patch(`/posts/${postId}`, { body })
     .then((res) => {
-      dispatch({ type: EDIT_POST, payload: res.data });
+      dispatch({
+        type: EDIT_POST,
+        payload: res.data,
+      });
       dispatch({ type: CLEAR_ERRORS });
+    })
+    .then(() => {
       history.push("/");
     })
     .catch((err) => {
       dispatch({ type: SET_ERRORS, payload: err.response });
     });
+};
+
+export const clearErrors = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };
