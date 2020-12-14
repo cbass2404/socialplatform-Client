@@ -42,12 +42,6 @@ export default function dataReducer(state = initialState, action) {
         loading: false,
       };
     case EDIT_POST:
-      let editIdx = state.posts.findIndex((post) => post.postId === action);
-      state.posts[editIdx].body = action.payload;
-      state.post.postId === action.payload.postId &&
-        (state.post.body = action.payload.body);
-      state.posts.postId === action.payload.postId &&
-        (state.posts.body = action.payload.body);
       return {
         ...state,
       };
