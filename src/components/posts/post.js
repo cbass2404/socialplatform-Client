@@ -55,6 +55,8 @@ const Post = (props) => {
 
   dayjs.extend(relativeTime);
 
+  const handleLike = (e) => {};
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -78,7 +80,7 @@ const Post = (props) => {
             </Typography>
             <Typography variant="body1">{body}</Typography>
             <TipButton tip="Like this">
-              <LikeIcon color="primary" />
+              <LikeIcon color="primary" onClick={handleLike} />
             </TipButton>
             <span>{likeCount} Likes</span>
             <TipButton tip="comments">
